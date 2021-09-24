@@ -13,7 +13,9 @@ const useStyle = makeStyles({
 });
 
 const Products = ({ products, handleAddToCart }) => {
+  //variables
   const classes = useStyle();
+
   return (
     <Container maxWidth="lg" className={classes.root}>
       {products.map((item) => (

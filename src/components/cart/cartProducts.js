@@ -8,12 +8,15 @@ import {
 import { makeStyles } from "@material-ui/styles";
 const useStyle = makeStyles({
   root: {
-    borderRadius: "10px",
-    boxShadow: "0px 0px 10px 0px #0000002e",
     display: "flex",
     flexDirection: "column",
+    justifyContent: "space-between",
   },
-  itemTitle: { display: "flex", justifyContent: "space-between" },
+  itemTitle: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   item__image: {
     height: "250px",
     backgroundSize: "70%",
@@ -31,10 +34,12 @@ const useStyle = makeStyles({
     },
   },
 });
-const CartProduct = ({ item }) => {
+const CartProduct = ({ item, handleUpdateCart, handleRemoveFromCart }) => {
+  //variables
   const classes = useStyle();
+
   return (
-    <Card>
+    <Card className={classes.root}>
       <CardMedia className={classes.item__image} image={item.media.source} />
       <CardContent>
         <div className={classes.itemTitle}>
@@ -42,16 +47,32 @@ const CartProduct = ({ item }) => {
             {item.name}
           </Typography>
           <Typography gutterBottom variant="h6" component="h2">
-            {item.price.formatted_with_symbol}
+            {item.line_total.formatted_with_symbol}
           </Typography>
         </div>
         <div className={classes.btns}>
           <div className={classes.quantityBtns}>
-            <Button>-</Button>
+            <Button
+              onClick={() =>
+                handleUpdateCart(item.id, { quantity: --item.quantity })
+              }
+            >
+              -
+            </Button>
             <Typography variant="body2">{item.quantity}</Typography>
-            <Button>+</Button>
+            <Button
+              onClick={() =>
+                handleUpdateCart(item.id, { quantity: ++item.quantity })
+              }
+            >
+              +
+            </Button>
           </div>
-          <Button color="secondary" variant="contained">
+          <Button
+            onClick={() => handleRemoveFromCart(item.id)}
+            color="secondary"
+            variant="contained"
+          >
             Remove
           </Button>
         </div>

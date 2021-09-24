@@ -34,7 +34,9 @@ const useStyle = makeStyles({
 });
 
 const Product = ({ item, handleAddToCart }) => {
+  //variables
   const classes = useStyle();
+
   return (
     <Card className={classes.root}>
       <CardMedia className={classes.item__image} image={item.media.source} />

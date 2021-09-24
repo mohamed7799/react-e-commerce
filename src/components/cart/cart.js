@@ -1,4 +1,5 @@
 import { Container, Typography, makeStyles, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import CartProduct from "./cartProducts";
 
 const useStyle = makeStyles({
@@ -9,7 +10,7 @@ const useStyle = makeStyles({
     display: "grid",
     gap: "1.5rem",
     justifyContent: "center",
-    gridTemplateColumns: "repeat( auto-fit, minmax(250px, 350px) )",
+    gridTemplateColumns: "repeat( auto-fit, minmax(250px, 280px) )",
     padding: "2rem 1rem",
   },
   cartDetailes: {
@@ -32,8 +33,15 @@ const useStyle = makeStyles({
   },
 });
 
-const Cart = ({ cart }) => {
+const Cart = ({
+  cart,
+  handleEmptyCart,
+  handleRemoveFromCart,
+  handleUpdateCart,
+}) => {
+  //variables
   const classes = useStyle();
+
   return (
     <Container className={classes.root} maxWidth="md">
       <Typography variant="h4" component="h2">
@@ -43,18 +51,38 @@ const Cart = ({ cart }) => {
         <Typography className={classes.subtotal} variant="h5">
           SubTotal: {cart.subtotal.formatted_with_symbol}
         </Typography>
-        <Button variant="contained" color="secondary">
+        <Button onClick={handleEmptyCart} variant="contained" color="secondary">
           Clear Cart
         </Button>
-        <Button variant="contained" color="primary">
+        <Button
+          component={Link}
+          to="/checkout"
+          variant="contained"
+          color="primary"
+        >
           Checkout
         </Button>
       </div>
-      <section className={classes.cartItems}>
-        {cart.line_items.map((item) => (
-          <CartProduct key={item.id} item={item}></CartProduct>
-        ))}
-      </section>
+      {cart.line_items.length ? (
+        <section className={classes.cartItems}>
+          {cart.line_items.map((item) => (
+            <CartProduct
+              handleRemoveFromCart={handleRemoveFromCart}
+              handleUpdateCart={handleUpdateCart}
+              key={item.id}
+              item={item}
+            ></CartProduct>
+          ))}
+        </section>
+      ) : (
+        <Typography
+          style={{ marginTop: "1rem" }}
+          variant="h6"
+          color="textSecondary"
+        >
+          Your cart is empty go to the main page and start adding items
+        </Typography>
+      )}
     </Container>
   );
 };

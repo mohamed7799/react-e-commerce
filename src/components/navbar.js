@@ -34,6 +34,7 @@ const useStyle = makeStyles({
 });
 
 const Navbar = ({ totalItems }) => {
+  //variables
   const classes = useStyle();
   return (
     <AppBar position="static" color="inherit">
